@@ -1,0 +1,19 @@
+name "gps_ntrip"
+version "0.0"
+
+using_library "gps_ntrip"
+import_types_from "std"
+import_types_from "iodrivers_base"
+
+task_context "Task" do
+    needs_configuration
+
+    property "host", "/std/string"
+    property "port", "/int32_t"
+    property "user", "/std/string"
+    property "password", "/std/string"
+    property "mountpoint", "/std/string"
+
+    output_port "rtcm_out", "iodrivers_base/RawPacket"
+end
+

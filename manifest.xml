@@ -1,0 +1,10 @@
+<package>
+  <description brief="NTRIP data source for RTCM data">
+  </description>
+  <author>Sylvain Joyeux/sylvain.joyeux@tidewise.io</author>
+  <license>LGPLv2+</license>
+
+  <depend package="base/cmake" />
+  <depend package="drivers/gps_ntrip" />
+  <depend package="drivers/orogen/iodrivers_base" />
+</package>
