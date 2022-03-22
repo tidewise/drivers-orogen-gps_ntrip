@@ -6,5 +6,6 @@
 
   <depend package="base/cmake" />
   <depend package="drivers/gps_ntrip" />
+  <depend package="drivers/orogen/gps_base" />
   <depend package="drivers/orogen/iodrivers_base" />
 </package>

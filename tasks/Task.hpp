@@ -5,13 +5,17 @@
 
 #include "gps_ntrip/TaskBase.hpp"
 
+#include <ntrip/ntrip_client.h>
+#include <iodrivers_base/Driver.hpp>
+#include <iodrivers_base/TestStream.hpp>
+
 namespace gps_ntrip{
 
     /*! \class Task
      * \brief The task context provides and requires services. It uses an ExecutionEngine to perform its functions.
      * Essential interfaces are operations, data flow ports and properties. These interfaces have been defined using the oroGen specification.
      * In order to modify the interfaces you should (re)use oroGen and rely on the associated workflow.
-     * 
+     *
      * \details
      * The name of a TaskContext is primarily defined via:
      \verbatim
@@ -25,8 +29,12 @@ namespace gps_ntrip{
     {
 	friend class TaskBase;
     protected:
+        libntrip::NtripClient mNTRIP;
+        std::unique_ptr<iodrivers_base::Driver> mRTCMPacketizer;
+        iodrivers_base::TestStream* mRTCMPacketizerStream;
 
-
+        void processCurrentPosition(gps_base::Solution const& position);
+        bool startClient();
 
     public:
         /** TaskContext constructor for Task
