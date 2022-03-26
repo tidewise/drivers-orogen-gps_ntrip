@@ -1,8 +1,13 @@
 name "gps_ntrip"
 version "0.0"
 
-using_library "gps_ntrip"
+using_library "gps_base", typekit: false
+using_library "gps_ntrip", typekit: false
+using_library "iodrivers_base", typekit: false
+
 import_types_from "std"
+
+import_types_from "gps_base"
 import_types_from "iodrivers_base"
 
 task_context "Task" do
@@ -14,6 +19,17 @@ task_context "Task" do
     property "password", "/std/string"
     property "mountpoint", "/std/string"
 
-    output_port "rtcm_out", "iodrivers_base/RawPacket"
-end
+    # Latitude/longitude of the GNSS unit
+    input_port "gps_solution", "gps_base/Solution"
 
+    # RTCM stream for the GNSS unit
+    output_port "rtcm_out", "iodrivers_base/RawPacket"
+
+    runtime_states "WAITING_FOR_POSITION"
+    exception_states "CONNECTION_FAILED", "CONNECTION_CLOSED"
+
+    # The period does not affect the component's output. The NTRIP
+    # client library we use is threaded and calls us back when there
+    # is data.
+    periodic 0.1
+end
